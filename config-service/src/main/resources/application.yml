@@ -1,0 +1,14 @@
+server:
+  port: ${CONFIGSERVER_PORT}
+
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${GIT_CONFIG_URI}
+          username: ${GIT_USERNAME}
+          password: ${GIT_PASSWORD}
+          search-paths: cart-app-config
