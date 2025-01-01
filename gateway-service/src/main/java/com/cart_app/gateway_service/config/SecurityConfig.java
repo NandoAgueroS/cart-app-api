@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(http -> http.
                         pathMatchers(HttpMethod.POST,"/api/users").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/users").hasRole("admin_client_role")
+                        .pathMatchers(HttpMethod.GET, "/users").hasRole("admin_client_role")
                         .anyExchange().authenticated())
                 .oauth2ResourceServer(oauth ->
                         oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)))
