@@ -27,6 +27,10 @@ public class ProductController {
     public ResponseEntity<ProductResponse> findOne(@PathVariable Long id) throws ProductNotFoundException {
         return ResponseEntity.ok(productService.getProductById(id));
     }
+    @GetMapping("/all-by-id")
+    public ResponseEntity<List<ProductResponse>> getAllById(@RequestParam List<Long> ids) {
+        return ResponseEntity.ok(productService.getAllProductsById(ids));
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

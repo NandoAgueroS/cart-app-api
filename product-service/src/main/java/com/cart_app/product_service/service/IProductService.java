@@ -41,6 +41,14 @@ public interface IProductService {
     List<ProductResponse> getAllProducts();
 
     /**
+     * Retrieves a list of products by their IDs.
+     *
+     * @param ids a list of product IDs to retrieve.
+     * @return a list of products corresponding to the provided product IDs.
+     */
+    List<ProductResponse> getAllProductsById(List<Long> ids);
+
+    /**
      * Deletes a product by its ID.
      *
      * @param id The ID of the product to be deleted.

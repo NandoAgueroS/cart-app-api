@@ -1,10 +1,8 @@
 package com.cart_app.product_service.service;
 
 import com.cart_app.product_service.ProductMapper;
-import com.cart_app.product_service.ProductMapperImpl;
 import com.cart_app.product_service.dto.ProductRequest;
 import com.cart_app.product_service.dto.ProductResponse;
-import com.cart_app.product_service.exception.InvalidArgumentException;
 import com.cart_app.product_service.exception.ProductNotFoundException;
 import com.cart_app.product_service.model.ProductEntity;
 import com.cart_app.product_service.repository.IProductRepository;
@@ -56,6 +54,12 @@ public class ProductServiceImpl implements IProductService{
                 .map(productEntity ->
                         productMapper.toProductResponse(productEntity))
                 .toList();
+    }
+
+    @Override
+    public List<ProductResponse> getAllProductsById(List<Long> ids) {
+        List<ProductEntity> productEntities = productRepository.findAllById(ids);
+        return productMapper.toProductResponseList(productEntities);
     }
 
     @Override

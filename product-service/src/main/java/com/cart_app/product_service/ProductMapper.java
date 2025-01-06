@@ -6,8 +6,8 @@ import com.cart_app.product_service.model.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Mapper
 public interface ProductMapper {
@@ -16,6 +16,8 @@ public interface ProductMapper {
 
     @Mapping(target = "id", source = "productId")
     ProductResponse toProductResponse(ProductEntity productEntity);
+
+    List<ProductResponse> toProductResponseList(List<ProductEntity> productEntities);
 
     ProductEntity toProductEntity(ProductRequest productRequest);
 }
