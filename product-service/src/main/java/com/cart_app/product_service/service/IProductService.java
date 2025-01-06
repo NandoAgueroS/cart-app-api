@@ -1,9 +1,11 @@
 package com.cart_app.product_service.service;
 
+import com.cart_app.product_service.dto.PaginatedProductResponse;
 import com.cart_app.product_service.dto.ProductRequest;
 import com.cart_app.product_service.dto.ProductResponse;
 import com.cart_app.product_service.exception.InvalidArgumentException;
 import com.cart_app.product_service.exception.ProductNotFoundException;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -40,6 +42,7 @@ public interface IProductService {
      */
     List<ProductResponse> getAllProducts();
 
+    PaginatedProductResponse getAllProducts(Pageable pageable);
     /**
      * Retrieves a list of products by their IDs.
      *

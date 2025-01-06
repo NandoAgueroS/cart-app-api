@@ -1,12 +1,15 @@
 package com.cart_app.product_service.service;
 
 import com.cart_app.product_service.ProductMapper;
+import com.cart_app.product_service.dto.PaginatedProductResponse;
 import com.cart_app.product_service.dto.ProductRequest;
 import com.cart_app.product_service.dto.ProductResponse;
 import com.cart_app.product_service.exception.ProductNotFoundException;
 import com.cart_app.product_service.model.ProductEntity;
 import com.cart_app.product_service.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +57,24 @@ public class ProductServiceImpl implements IProductService{
                 .map(productEntity ->
                         productMapper.toProductResponse(productEntity))
                 .toList();
+    }
+
+    @Override
+    public PaginatedProductResponse getAllProducts(Pageable pageable) {
+        Page<ProductEntity> products = productRepository.findAll(pageable);
+        List<ProductResponse> productResponses = productMapper.toProductResponseList(products
+                .getContent());
+                /*.stream()
+                .map(productEntity ->
+                        productMapper.toProductResponse(productEntity))
+                .toList();*/
+        return PaginatedProductResponse.builder()
+                .productResponses(productResponses)
+                .pageSize(products.getSize())
+                .totalPages(products.getTotalPages())
+                .totalElements(products.getTotalElements())
+                .pageNumber(products.getNumber())
+                .build();
     }
 
     @Override
