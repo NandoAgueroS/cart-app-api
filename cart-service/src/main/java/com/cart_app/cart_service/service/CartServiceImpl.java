@@ -95,6 +95,7 @@ public class CartServiceImpl implements ICartService{
                             .getFirst()
             );
             item.setTotalProduct(item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
+            item.setHasEnoughStock(item.getProduct().getStock() >= item.getQuantity());
             return item;})
                 .toList());
         cartResponse.setTotalCart(cartResponse.getItemDetailedList().stream()

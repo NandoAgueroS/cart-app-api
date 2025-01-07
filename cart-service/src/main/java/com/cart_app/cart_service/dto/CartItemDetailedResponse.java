@@ -13,4 +13,5 @@ public class CartItemDetailedResponse {
     private BigDecimal totalProduct;
     private Long productId;
     private ProductDTO product;
+    private boolean hasEnoughStock;
 }
