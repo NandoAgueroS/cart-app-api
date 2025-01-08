@@ -45,6 +45,20 @@ public class UserServiceImpl implements IUserService{
     }
 
     /**
+     * Metodo para buscar un usuario por el username
+     * @return String
+     */
+    @Override
+    public String getUserIdByUsername(String username) {
+        return KeycloakProvider.
+                getRealmResource()
+                .users()
+                .searchByUsername(username, true)//el true es para especificar que se pasa el username exacto
+                .getFirst()
+                .getId();
+    }
+
+    /**
      * Metodo para crear un usuario
      * @return String
      */
@@ -130,12 +144,7 @@ public class UserServiceImpl implements IUserService{
         userRepresentation.setCredentials(Collections.singletonList(credentialRepresentation));
 
         UserResource userResource = KeycloakProvider.getUserResource().get(userId);
-        System.out.println("---update---");
-        System.out.println("---userRepresentation---");
-        System.out.println(userRepresentation);
-        System.out.println("---userRepresentation/---");
         userResource.update(userRepresentation);
-        System.out.println("---update/---");
 
     }
 }

@@ -19,8 +19,13 @@ public class UserController {
         return ResponseEntity.ok(userService.findAllUsers());
     }
     @GetMapping("/{username}")
-    public ResponseEntity<?> findAllUsers(@PathVariable String username){
+    public ResponseEntity<?> findUser(@PathVariable String username){
         return ResponseEntity.ok(userService.searchUserByUsername(username));
+    }
+
+    @GetMapping("/get-id/{username}")
+    public ResponseEntity<String> getUserId(@PathVariable String username){
+        return ResponseEntity.ok(userService.getUserIdByUsername(username));
     }
 
     @PostMapping
@@ -29,8 +34,8 @@ public class UserController {
         return ResponseEntity.created(new URI("/keycloak/user/create")).body(response);
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable String userId , @RequestBody UserDTO userDTO){
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestHeader("User-Id-Personalized") String userId, @RequestBody UserDTO userDTO){
         userService.updateUser(userId, userDTO);
         return ResponseEntity.ok("User updated successfully!");
     }
