@@ -14,16 +14,18 @@ import reactor.core.publisher.Mono;
 public class JwtFilter implements WebFilter {
 
     private Mono<String> getUserId(){
-        return ReactiveSecurityContextHolder.getContext().map(securityContext -> {
-            Authentication authentication = securityContext.getAuthentication();
-            if (authentication != null && authentication.getPrincipal() instanceof Jwt){
-                Jwt jwt = (Jwt) authentication.getPrincipal();
-                String userId = jwt.getClaimAsString("sub");
-                return userId;
-            }
-            System.out.println("failed to get user id");
-            return null;
-        });
+        return ReactiveSecurityContextHolder.getContext()
+                .filter(securityContext -> securityContext.getAuthentication() != null)
+                .flatMap(securityContext -> {
+                    Authentication authentication = securityContext.getAuthentication();
+                    if (authentication.getPrincipal() instanceof Jwt){
+                        Jwt jwt = (Jwt) authentication.getPrincipal();
+                        String userId = jwt.getClaimAsString("sub");
+                        return Mono.just(userId);
+                    }
+                    System.out.println("failed to get user id");
+                    return Mono.empty();
+                });
     }
 
     @Override
@@ -38,7 +40,7 @@ public class JwtFilter implements WebFilter {
                 return chain.filter(modifiedExchange);
             }
             return chain.filter(exchange);
-        });
+        }).switchIfEmpty(chain.filter(exchange)) ;
     }
 
 
